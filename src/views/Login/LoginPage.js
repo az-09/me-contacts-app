@@ -22,7 +22,8 @@ const LoginPage = () => {
   const history = useHistory();
 
   useEffect(() => {
-    if (data) {
+    
+    if (data && data.token) {
         history.push("/")
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

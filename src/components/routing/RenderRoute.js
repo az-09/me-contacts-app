@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, useHistory } from "react-router-dom";
-import { isAuthenticated } from "../../utils/helpers/appHelper";
+import { isAuthenticated } from "../../utils/helpers/appHelpers";
 
 const RenderRoute = (route) => {
   const { needsAuth, path, component, title } = route;

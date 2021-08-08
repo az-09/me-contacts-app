@@ -3,7 +3,7 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { Button, Icon, Image, Menu } from "semantic-ui-react";
 import { Context } from "../../../contexts/Provider";
 import logout from "../../../services/logout";
-import { isAuthenticated } from "../../../utils/helpers/appHelper";
+import { isAuthenticated } from "../../../utils/helpers/appHelpers";
 import logo from "../../../assets/images/logo.svg";
 
 const NavBar = () => {

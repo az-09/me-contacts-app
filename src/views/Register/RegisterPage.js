@@ -1,4 +1,4 @@
-import React, { useContext, useEffect,  useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Button, Form, Grid, Header, Segment } from "semantic-ui-react";
 import { Link, useHistory } from "react-router-dom";
@@ -6,6 +6,7 @@ import { Link, useHistory } from "react-router-dom";
 import { Context } from "../../contexts/Provider";
 import postRegister from "../../services/postRegister";
 import NavBar from "../../components/layout/NavBar/NavBar";
+import logout from "../../services/logout";
 
 const RegisterPage = () => {
   const {
@@ -21,9 +22,12 @@ const RegisterPage = () => {
 
   useEffect(() => {
     if (data) {
+      // to prevent endless loop after registered and then returned from login because data already exists, reinitialize state
+      logout(history)(authDispatch); 
+
       history.push("/auth/login");
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   useEffect(() => {
@@ -32,7 +36,7 @@ const RegisterPage = () => {
         setFieldErrors({ ...fieldErrors, [name]: value[0] });
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 
   const onChange = (e, { name, value }) => {
@@ -53,7 +57,7 @@ const RegisterPage = () => {
 
   return (
     <div>
-      <NavBar/>
+      <NavBar />
       <Grid centered>
         <Grid.Column style={{ maxWidth: 550, marginTop: 20 }}>
           <Header>Signup Here</Header>

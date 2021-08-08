@@ -8,6 +8,7 @@ import {
   LOGOUT_USER,
 } from "./authActions";
 
+import authInitialState from "./authInitialState";
 
 const authReducer = (state, { type, payload }) => {
   switch (type) {
@@ -36,13 +37,9 @@ const authReducer = (state, { type, payload }) => {
       };
 
     case LOGOUT_USER:
-      return{
-        ...state,
-        loading: false,
-        error: false,
-        data: []
-      }
-
+      return {
+        ...authInitialState,
+      };
     default:
       return state;
   }
