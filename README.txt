@@ -182,7 +182,7 @@ export const Provider = ({ children }) => {
   </BrowserRouter>
 </Provider>
 
-- Step 5. RegisterPage.js
+- Step 5. postRegister.js
 const postRegister =
   ({ email, password, username, lastName: last_name, firstName: first_name }) =>
   (dispatch) => {
@@ -214,7 +214,19 @@ const postRegister =
 
 - Step 6. RegisterPage.js
 npm i semantic-ui-react
-npm i semantic-ui-css 
+npm i semantic-ui-css
+...
+  useEffect(() => {
+    if (data) {
+      // to prevent endless loop after registered and then returned from login because data already exists, reinitialize state
+      logout(history)(authDispatch); 
+
+      history.push("/auth/login");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+...
+
 
 - Step 7. postLogin.js
 const postLogin =
@@ -242,4 +254,206 @@ const postLogin =
   };
 
 - Step 8. LoginPage.js
+...
+  useEffect(() => {
+    
+    if (data && data.token) {
+        history.push("/")
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+...
+
+- Step 9. logout.js
+const logout = (history) => (dispatch) => {
+  localStorage.removeItem('token');  
+  dispatch({
+    type: LOGOUT_USER, // reinitialize state
+  });
+  history.push('/auth/login');
+
+};
+
+
+- Step 9. contactsActions.js
+
+export const GET_CONTACTS_LOADING = 'GET_CONTACTS_LOADING';
+export const GET_CONTACTS_SUCCESS = 'GET_CONTACTS_SUCCESS';
+export const GET_CONTACTS_ERROR = 'GET_CONTACTS_ERROR';
+
+export const ADD_CONTACT_LOADING = 'ADD_CONTACT_LOADING';
+export const ADD_CONTACT_SUCCESS = 'ADD_CONTACT_SUCCESS';
+export const ADD_CONTACT_ERROR = 'ADD_CONTACT_ERROR';
+export const CLEAR_ADD_CONTACT = 'CLEAR_ADD_CONTACT';
+
+export const DELETE_CONTACT_LOADING = 'DELETE_CONTACT_LOADING';
+export const DELETE_CONTACT_SUCCESS = 'DELETE_CONTACT_SUCCESS';
+export const DELETE_CONTACT_ERROR = 'DELETE_CONTACT_ERROR';
+
+- Step 10. contactsInitialState.js
+export const contactsInitialState = {
+  loading: false,
+  error: null,
+  data: [],
+};
+
+- Step 11. contactsReducer.js
+const contactsReducer = (state, { type, payload }) => {
+  switch (type) {
+    case GET_CONTACTS_LOADING:
+    case ADD_CONTACT_LOADING:
+    case DELETE_CONTACT_LOADING:
+    case UPDATE_CONTACT_LOADING:
+      return {
+        ...state,
+        error: false,
+        loading: true,
+      };
+
+    case GET_CONTACTS_SUCCESS:
+    case ADD_CONTACT_SUCCESS:
+    case DELETE_CONTACT_SUCCESS:
+    case UPDATE_CONTACT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        data: payload,
+      };
+
+    case GET_CONTACTS_ERROR:
+    case ADD_CONTACT_ERROR:
+    case DELETE_CONTACT_ERROR:
+    case UPDATE_CONTACT_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
+- Step 12. Provider.js
+...
+  const [contactsState, contactsDispatch] = useReducer(contactsReducer, contactsInitialState)
+...
+  <Context.Provider
+      value={{
+        ...
+        contactsState,
+        contactsDispatch
+      }}
+    >
+
+- Step 13. getContacts.js
+...
+
+const getContacts = (history) => (dispatch) => {
+  dispatch({
+    type: GET_CONTACTS_LOADING,
+  });
+
+  axiosHelper(history)
+    .get("/contacts/")
+    .then((res) => {
+      dispatch({
+        type: GET_CONTACTS_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+        dispatch({
+            type: GET_CONTACTS_ERROR,
+            payload: err.response ? err.response.data : CONNECTION_ERROR
+        })
+    })
+};
+
+- Step 14. ContactsPage.js
+...
+const ContactsPage = () => {
+  const {
+    contactsDispatch,
+    contactsState,
+  } = useContext(Context);
+
+  const history = useHistory();
+
+  const {data} = contactsState
+
+  useEffect(() => {
+    if (data.length === 0) {
+      getContacts(history)(contactsDispatch);
+    }
+  }, []);
+
+  return (
+      <div>
+          
+          <NavBar />
+          <ContactListPage {...contactsState}/>
+      </div>
+  );
+};
+
+- Step 15-1. ImageThumb.js and ImageThumb.css
+
+- Step 15-2. ContactListPage.js
+const ContactListPage = (state) => {
+  const { loading, data } = state;
+
+  return (
+    <div>
+      <Header>ALL</Header>
+      {loading && (
+        <>
+          {" "}
+          <Placeholder>
+            <Placeholder.Header image>
+              <Placeholder.Line />
+              <Placeholder.Line />
+            </Placeholder.Header>
+            <Placeholder.Paragraph>
+              <Placeholder.Line />
+              <Placeholder.Line />
+              <Placeholder.Line />
+              <Placeholder.Line />
+            </Placeholder.Paragraph>
+          </Placeholder>
+        </>
+      )}
+      {!loading && data.length === 0 && (
+        <Message content="No contacts to show." />
+      )}
+
+      <List>
+        {data.length > 0 &&
+          data.map((contact) => (
+            <List.Item key={contact.id} disabled={contact.deleting}>
+              <List.Content floated="right">
+                <span>
+                  {contact.country_code} {contact.phone_number}
+                </span>
+    
+              </List.Content>
+              <List.Content style={{ display: "flex", alignItems: "center" }}>
+                 <ImageThumb
+                  firstName={contact.first_name}
+                  lastName={contact.last_name}
+                  src={contact.picture_url}
+                />
+                <span>
+                  {contact.first_name} {contact.last_name}
+                  {contact.is_favorite && <Icon name="heart" color="red" />}
+                </span>
+              </List.Content>
+            </List.Item>
+          ))}
+      </List>
+    </div>
+  );
+};
+
 
