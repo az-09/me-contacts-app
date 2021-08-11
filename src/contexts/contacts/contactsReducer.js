@@ -27,7 +27,6 @@ const contactsReducer = (state, { type, payload }) => {
 
     case GET_CONTACTS_SUCCESS:
     case ADD_CONTACT_SUCCESS:
-    case DELETE_CONTACT_SUCCESS:
     case UPDATE_CONTACT_SUCCESS:
       return {
         ...state,
@@ -45,9 +44,16 @@ const contactsReducer = (state, { type, payload }) => {
         error: payload,
       };
 
+    case DELETE_CONTACT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        data: state.data.filter(contact => contact.id !== payload)
+      };
+
     default:
       return state;
   }
 };
 
-export default contactsReducer
+export default contactsReducer;

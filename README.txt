@@ -311,9 +311,6 @@ const contactsReducer = (state, { type, payload }) => {
       };
 
     case GET_CONTACTS_SUCCESS:
-    case ADD_CONTACT_SUCCESS:
-    case DELETE_CONTACT_SUCCESS:
-    case UPDATE_CONTACT_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -455,5 +452,55 @@ const ContactListPage = (state) => {
     </div>
   );
 };
+
+- Step 16. contactsReducer.js
+...
+    case DELETE_CONTACT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        data: state.data.filter(contact => contact.id !== payload)
+
+      };
+
+
+- Step 16. deleteContact.js
+const deleteContact = (id) => (dispatch) => {
+    dispatch({
+        type: DELETE_CONTACT_LOADING
+    })
+
+    axiosHelper()
+    .delete(`/contacts/${id}`)
+    .then(() => {
+        dispatch({
+            type: DELETE_CONTACT_SUCCESS,
+            payload: id
+        })
+    })
+    .catch((err) => {
+        dispatch({
+            type: DELETE_CONTACT_ERROR,
+            payload: err.response ? err.response.data : CONNECTION_ERROR
+        })
+    })
+}
+
+- Step 17. ContactListPage.js
+...
+const { contactsDispatch } = useContext(Context);
+
+const handleDeleteContact = (id) => {
+  deleteContact(id)(contactsDispatch);
+ };
+...
+  <Button
+    color="red"
+    size="tiny"
+    onClick={() => handleDeleteContact(contact.id)}
+  >
+    <Icon name="delete" />
+  </Button>
+
 
 

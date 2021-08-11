@@ -1,10 +1,23 @@
-import React from "react";
-import { Header, Icon, List, Message, Placeholder } from "semantic-ui-react";
+import React, { useContext } from "react";
+import {
+  Button,
+  Header,
+  Icon,
+  List,
+  Message,
+  Placeholder,
+} from "semantic-ui-react";
 import ImageThumb from "../../components/ImageThumb/ImageThumb";
+import { Context } from "../../contexts/Provider";
+import deleteContact from "../../services/deleteContact";
 
 const ContactListPage = (state) => {
+  const { contactsDispatch } = useContext(Context);
   const { loading, data } = state;
 
+  const handleDeleteContact = (id) => {
+    deleteContact(id)(contactsDispatch);
+  };
   return (
     <div>
       <Header>ALL</Header>
@@ -30,17 +43,23 @@ const ContactListPage = (state) => {
       )}
 
       <List>
-        {data.length > 0 &&
+        {data.length > 0 && data.length &&
           data.map((contact) => (
-            <List.Item key={contact.id} disabled={contact.deleting}>
+            <List.Item key={contact.id} >
               <List.Content floated="right">
                 <span>
                   {contact.country_code} {contact.phone_number}
                 </span>
-    
+                <Button
+                  color="red"
+                  size="tiny"
+                  onClick={() => handleDeleteContact(contact.id)}
+                >
+                  <Icon name="delete" />
+                </Button>
               </List.Content>
               <List.Content style={{ display: "flex", alignItems: "center" }}>
-              <ImageThumb
+                <ImageThumb
                   firstName={contact.first_name}
                   lastName={contact.last_name}
                   src={contact.picture_url}
