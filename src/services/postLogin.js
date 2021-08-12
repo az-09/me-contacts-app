@@ -4,7 +4,7 @@ import {
   LOGIN_LOADING,
   LOGIN_SUCCESS,
 } from "../contexts/authentication/authActions";
-import { axiosHelper } from "../utils/helpers/axiosHelper";
+import axiosHelper from "../utils/helpers/axiosHelper";
 
 const postLogin =
   ({ username, password }) =>

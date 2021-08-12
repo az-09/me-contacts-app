@@ -628,3 +628,69 @@ export const CLEAR_CREATE_CONTACT = 'CLEAR_CREATE_CONTACT';
       }
     }
 
+- Step 30. Install firebase
+npm install --save firebase
+
+- Step 31. firebaseHelper.js
+import firebase from 'firebase/app';
+import 'firebase/storage';
+
+const {
+  REACT_APP_FIREBASE_API_KEY,
+  REACT_APP_AUTH_DOMAIN,
+  REACT_APP_PROJECT_ID,
+  REACT_APP_FIREBASE_STORAGE_BUCKET,
+  REACT_APP_FIREBASE_MESSAGING_ID,
+  REACT_APP_FIREBASE_API_ID,
+} = process.env;
+
+const firebaseConfig = {
+  apiKey: REACT_APP_FIREBASE_API_KEY,
+  authDomain: REACT_APP_AUTH_DOMAIN,
+  projectId: REACT_APP_PROJECT_ID,
+  storageBucket: REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: REACT_APP_FIREBASE_MESSAGING_ID,
+  appId: REACT_APP_FIREBASE_API_ID,
+};
+  // Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+const storage = firebase.storage();
+
+export default storage;
+// export { storage, firebase as default };
+
+- Step 32. createContact.js
+...
+  const saveToBackend = (url = null) => axiosHelper()
+    .post("/contacts/", {
+      last_name,
+      first_name,
+      phone_number,
+      country_code,
+      picture_url: url,
+      is_favorite,
+    })
+...
+if (picture_url) {
+    // if picture_url exists needs to upload to firebase first
+    storage
+      .ref(`contact_image/${picture_url.name}`)
+      .put(picture_url)
+      .on(
+        "state_changed",
+        // must add snapshot and error, if not creating 3 contacts
+        (snapshot) => {}, // if does not exist, keep loading wheel
+        async (error) => {}, /// if does not exist, keep loading wheel
+        async () => {
+          const url = await storage
+            .ref("contact_image")
+            .child(picture_url.name)
+            .getDownloadURL();
+          saveToBackend(url);
+        }
+      );
+  } else {
+    saveToBackend();
+  }
+

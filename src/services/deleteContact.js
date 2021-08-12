@@ -1,6 +1,6 @@
 import { CONNECTION_ERROR } from "../contexts/authentication/authActions"
 import { DELETE_CONTACT_ERROR, DELETE_CONTACT_LOADING, DELETE_CONTACT_SUCCESS } from "../contexts/contacts/contactsActions"
-import { axiosHelper } from "../utils/helpers/axiosHelper"
+import axiosHelper from "../utils/helpers/axiosHelper"
 
 const deleteContact = (id) => (dispatch) => {
     dispatch({

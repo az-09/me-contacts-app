@@ -4,7 +4,7 @@ import {
   GET_CONTACTS_LOADING,
   GET_CONTACTS_SUCCESS,
 } from "../contexts/contacts/contactsActions";
-import { axiosHelper } from "../utils/helpers/axiosHelper";
+import axiosHelper from "../utils/helpers/axiosHelper";
 
 const getContacts = (history) => (dispatch) => {
   dispatch({
