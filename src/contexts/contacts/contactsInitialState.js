@@ -1,5 +1,6 @@
-export const contactsInitialState = {
+const contactsInitialState = {
   loading: false,
-  error: null,
   data: [],
+  error: null,
 };
+export default contactsInitialState

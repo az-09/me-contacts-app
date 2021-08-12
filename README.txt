@@ -281,11 +281,6 @@ export const GET_CONTACTS_LOADING = 'GET_CONTACTS_LOADING';
 export const GET_CONTACTS_SUCCESS = 'GET_CONTACTS_SUCCESS';
 export const GET_CONTACTS_ERROR = 'GET_CONTACTS_ERROR';
 
-export const ADD_CONTACT_LOADING = 'ADD_CONTACT_LOADING';
-export const ADD_CONTACT_SUCCESS = 'ADD_CONTACT_SUCCESS';
-export const ADD_CONTACT_ERROR = 'ADD_CONTACT_ERROR';
-export const CLEAR_ADD_CONTACT = 'CLEAR_ADD_CONTACT';
-
 export const DELETE_CONTACT_LOADING = 'DELETE_CONTACT_LOADING';
 export const DELETE_CONTACT_SUCCESS = 'DELETE_CONTACT_SUCCESS';
 export const DELETE_CONTACT_ERROR = 'DELETE_CONTACT_ERROR';
@@ -503,4 +498,133 @@ const handleDeleteContact = (id) => {
   </Button>
 
 
+- Step 18. contactInitialState.js
+// to handle CreateContactPage
+const contactInitialState = {
+    loading: false,
+    data: null,
+    error: null,
+}
+
+export default contactInitialState
+
+
+- Step 19. contactAction.js
+export const CREATE_CONTACT_LOADING = 'CREATE_CONTACT_LOADING';
+export const CREATE_CONTACT_SUCCESS = 'CREATE_CONTACT_SUCCESS';
+export const CREATE_CONTACT_ERROR = 'CREATE_CONTACT_ERROR';
+
+export const CLEAR_CREATE_CONTACT = 'CLEAR_CREATE_CONTACT';
+
+- Step 19. contactReducer.js
+const contactReducer = (state, { type, payload }) => {
+  switch (type) {
+    case CREATE_CONTACT_LOADING: {
+      return {
+        ...state,
+        error: false,
+        loading: true,
+      };
+    }
+
+    case CREATE_CONTACT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        data: payload,
+      };
+    }
+
+    case CREATE_CONTACT_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+    }
+
+    case CLEAR_CREATE_CONTACT:{
+      return{
+        ...contactInitialState
+      }
+    }
+
+    default:
+      return state;
+  }
+};
+
+
+- Step 20. Provider.js
+  const [contactState, contactDispatch] = useReducer(contactReducer, contactInitialState)
+  
+  return (
+    <Context.Provider
+      value={{
+        ...
+        contactState, 
+        contactDispatch,
+      }}
+    >
+
+- Step 20. CreateContactPage.js, CreateContactPage.css
+
+- step 21. countries.js
+
+- Step 22. contactsActions.js
+...
+export const ADD_CONTACT_TO_CONTACTS = 'ADD_CONTACT_TO_CONTACTS'
+
+- Step 23. contactsReducer.js
+...
+    case ADD_CONTACT_TO_CONTACTS:
+      return {
+        ...state,
+        data: [...state.data, payload],
+      };
+
+- Step 24. addContactToContacts.js
+const addContactToContacts = (contact) => (dispatch) => {   
+    dispatch({
+        type: ADD_CONTACT_TO_CONTACTS,
+        payload: contact
+    })
+}
+
+- Step 25. CreateContactPage.js
+...
+  useEffect(() => {
+    if (data) {
+      addContactToContacts(data)(contactsDispatch);
+      ...
+    }
+    ...
+  }, [data]);
+
+
+- Step 26. CreateContactPage.js
+  useEffect(() => {
+    ...
+    clearCreateContact()(contactDispatch);
+  }, [data]);
+
+
+- Step 27. clearCreateContact.js
+const clearCreateContact = () => (dispatch) => {
+    dispatch({
+        type: CLEAR_CREATE_CONTACT
+    })
+}
+
+- Step 28. contactActions.js
+export const CLEAR_CREATE_CONTACT = 'CLEAR_CREATE_CONTACT';
+
+
+- Step 29. contactReducer.js
+...
+    case CLEAR_CREATE_CONTACT:{
+      return{
+        ...contactInitialState
+      }
+    }
 
