@@ -764,3 +764,71 @@ const { ... isSearchActive, contactsFound } = state;
       <List>
         {currentContacts.length > 0 && currentContacts.length &&
           currentContacts.map((contact) => (
+
+
+- Step 37-1. ContactListPage.js
+...
+   <Button onClick={() => handleUpdateFavorite(contact.id, contact.is_favorite)}>
+                  {contact.is_favorite ? 'UnFavorite' : 'Favorite'}
+                </Button>
+
+- Step 37-2
+...
+  const handleUpdateFavorite = (id, is_favorite) => {
+    updateFavorite(id, !is_favorite)(contactsDispatch)
+    
+  }
+
+
+- Step 38 updateFavorite.js
+...
+const updateFavorite = (id, is_favorite) => (dispatch) => {
+  dispatch({
+    type: UPDATE_FAVORITE_LOADING,
+  });
+
+  axiosInstance()
+    .patch(`/contacts/${id}`, { is_favorite })
+    .then((res) => {
+      dispatch({
+        type: UPDATE_FAVORITE_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: UPDATE_FAVORITE_ERROR,
+        payload: err.response ? err.response.data : CONNECTION_ERROR,
+      });
+    });
+};
+
+- Step 39 contactsInitialState.js
+...
+export const UPDATE_FAVORITE_LOADING = 'UPDATE_FAVORITE_LOADING'
+export const UPDATE_FAVORITE_SUCCESS = 'UPDATE_FAVORITE_SUCCESS'
+export const UPDATE_FAVORITE_ERROR = 'UPDATE_FAVORITE_ERROR'
+
+
+- Step 40 contactsReducer.js
+...
+case UPDATE_FAVORITE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        data: state.data.map((contact) => {
+          if (contact.id === payload.id) {
+            return payload;
+          }
+          return contact;
+        }),
+      };
+    }
+
+
+
+
+
+
+
+
