@@ -10,6 +10,7 @@ import {
 import ImageThumb from "../../components/ImageThumb/ImageThumb";
 import { Context } from "../../contexts/Provider";
 import deleteContact from "../../services/deleteContact";
+import updateFavorite from "../../services/updateFavorite";
 
 const ContactListPage = (state) => {
   const { contactsDispatch } = useContext(Context);
@@ -20,6 +21,12 @@ const ContactListPage = (state) => {
   };
 
   const currentContacts = isSearchActive ? contactsFound : data;
+
+  const handleUpdateFavorite = (id, is_favorite) => {
+    updateFavorite(id, !is_favorite)(contactsDispatch)
+    
+  }
+
 
   return (
     <div>
@@ -46,7 +53,7 @@ const ContactListPage = (state) => {
       )}
 
       <List>
-        {currentContacts && 
+        {currentContacts &&
           currentContacts.map((contact) => (
             <List.Item key={contact.id}>
               <List.Content floated="right">
@@ -59,6 +66,13 @@ const ContactListPage = (state) => {
                   onClick={() => handleDeleteContact(contact.id)}
                 >
                   <Icon name="delete" />
+                </Button>
+                <Button
+                  onClick={() =>
+                    handleUpdateFavorite(contact.id, contact.is_favorite)
+                  }
+                >
+                  {contact.is_favorite ? "UnFavorite" : "Favorite"}
                 </Button>
               </List.Content>
               <List.Content style={{ display: "flex", alignItems: "center" }}>
