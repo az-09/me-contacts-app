@@ -694,3 +694,73 @@ if (picture_url) {
     saveToBackend();
   }
 
+
+- Step 33. contactsActions.js
+...
+export const SEARCH_CONTACTS = 'SEARCH_CONTACTS'
+
+- Step 34. contactsInitialState.js
+const contactsInitialState = {
+ ...
+  isSearchActive: false,
+  contactsFound: []
+};
+
+- Step 35. NavBar.js
+...
+  const {
+    ...,
+    contactsDispatch
+  } = useContext(Context);
+...
+ const onSearchFieldChange = (e, {value}) => {
+    // The g modifier is used to perform a global match (find all matches rather than stopping after the first match).
+    const searchText = value.trim().replace(/' '/g, '')
+   
+    contactsDispatch({
+      type: SEARCH_CONTACTS,
+      payload: searchText
+    })
+    
+  }
+...
+      {isAuthenticated() && (
+        <Menu.Item position="right">
+          <Input style={{width:300}} placeholder="Search Contacts" onChange={onSearchFieldChange}/>
+        </Menu.Item>
+      )}
+
+- Step 35. contactsReducer.js
+  case SEARCH_CONTACTS:
+      const searchText = payload?.toLowerCase();
+      return {
+        ...state,
+        loading: false,
+        isSearchActive: !!searchText, // https://betterprogramming.pub/10-modern-javascript-tricks-every-developer-should-use-377857311d79
+        contactsFound: state.data.filter((contact) => {
+          try { // to prevent special characters which result in breaking app
+            return (
+              contact.first_name.toLowerCase().search(searchText) !== -1 ||
+              contact.last_name.toLowerCase().search(searchText) !== -1 ||
+              contact.phone_number.toLowerCase().search(searchText) !== -1
+            );
+          } catch (error) {
+            return [];
+          }
+        }),
+      };
+
+- Step 36. ContactListPage.js
+...
+const { ... isSearchActive, contactsFound } = state;
+
+...
+  const currentContacts = isSearchActive ? contactsFound : data
+...
+  {!loading && currentContacts.length === 0 && (
+        <Message content="No contacts to show." />
+      )}
+
+      <List>
+        {currentContacts.length > 0 && currentContacts.length &&
+          currentContacts.map((contact) => (

@@ -6,6 +6,7 @@ import {
   GET_CONTACTS_ERROR,
   GET_CONTACTS_LOADING,
   GET_CONTACTS_SUCCESS,
+  SEARCH_CONTACTS,
 } from "./contactsActions";
 
 const contactsReducer = (state, { type, payload }) => {
@@ -44,6 +45,25 @@ const contactsReducer = (state, { type, payload }) => {
         ...state,
         loading: false,
         error: payload,
+      };
+
+    case SEARCH_CONTACTS:
+      const searchText = payload?.toLowerCase();
+      return {
+        ...state,
+        loading: false,
+        isSearchActive: !!searchText, // https://betterprogramming.pub/10-modern-javascript-tricks-every-developer-should-use-377857311d79
+        contactsFound: state.data.filter((contact) => {
+          try { // to prevent special characters which result in breaking app
+            return (
+              contact.first_name.toLowerCase().search(searchText) !== -1 ||
+              contact.last_name.toLowerCase().search(searchText) !== -1 ||
+              contact.phone_number.toLowerCase().search(searchText) !== -1
+            );
+          } catch (error) {
+            return [];
+          }
+        }),
       };
 
     default:

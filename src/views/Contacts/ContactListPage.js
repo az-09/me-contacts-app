@@ -13,11 +13,14 @@ import deleteContact from "../../services/deleteContact";
 
 const ContactListPage = (state) => {
   const { contactsDispatch } = useContext(Context);
-  const { loading, data } = state;
+  const { loading, data, isSearchActive, contactsFound } = state;
 
   const handleDeleteContact = (id) => {
     deleteContact(id)(contactsDispatch);
   };
+
+  const currentContacts = isSearchActive ? contactsFound : data;
+
   return (
     <div>
       <Header>ALL</Header>
@@ -38,14 +41,14 @@ const ContactListPage = (state) => {
           </Placeholder>
         </>
       )}
-      {!loading && data.length === 0 && (
+      {!loading && currentContacts.length === 0 && (
         <Message content="No contacts to show." />
       )}
 
       <List>
-        {data.length > 0 && data.length &&
-          data.map((contact) => (
-            <List.Item key={contact.id} >
+        {currentContacts && 
+          currentContacts.map((contact) => (
+            <List.Item key={contact.id}>
               <List.Content floated="right">
                 <span>
                   {contact.country_code} {contact.phone_number}
