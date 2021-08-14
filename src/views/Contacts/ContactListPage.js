@@ -67,9 +67,9 @@ const ContactListPage = (state) => {
                   size="tiny"
                   onClick={() => handleDeleteContact(contact.id)}
                 >
-                  <Icon name="delete" />
+                  <Icon name="user delete" />
                 </Button>
-                <Button
+                <Button name="favorite"
                   onClick={() =>
                     handleUpdateFavorite(contact.id, contact.is_favorite)
                   }
