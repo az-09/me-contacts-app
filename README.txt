@@ -830,7 +830,6 @@ case UPDATE_FAVORITE_SUCCESS: {
 
 - Step 41. ContactsPage.js
 ...
-     <Header>Favorites</Header>
     <FavoritesPage  {...contactsState}/>
 
 
@@ -840,6 +839,38 @@ case UPDATE_FAVORITE_SUCCESS: {
 - Step 43. FavoritesPage.css
 
 
-- Step 44. 
+- Step 44. CreateContactPage.js
+...
+const formNotCompleted = Object.values(form).filter(value => value && value !== '')?.length > 0 
+...
+    <Prompt
+        when={formNotCompleted}
+        message="You have unsaved changes, would you like to leave?"
+
+      />
+
+
+
+
+
+
+- Step 45-1. Layload, routes.js
+
+import {lazy} from 'react';
+...
+// import CreateContactPage from '../../views/CreateContact/CreateContactPage';
+const CreateContactPage = lazy(() => import('../../views/CreateContact/CreateContactPage'))
+
+
+- Step 45-2. Layload, App.js
+          <Suspense fallback={<p>Loading</p>}>
+            <Switch>
+              {routes.map((route) => (
+                <RenderRoute {...route} key={route.title} />
+              ))}
+            </Switch>
+          </Suspense>
+
+
 
 
