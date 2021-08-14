@@ -4,7 +4,7 @@ import { Button, Icon, Image, Input, Menu } from "semantic-ui-react";
 import { Context } from "../../../contexts/Provider";
 import logout from "../../../services/logout";
 import { isAuthenticated } from "../../../utils/helpers/appHelpers";
-import logo from "../../../assets/images/logo.svg";
+import logo from "../../../assets/images/logo.png";
 import { SEARCH_CONTACTS } from "../../../contexts/contacts/contactsActions";
 
 const NavBar = () => {
