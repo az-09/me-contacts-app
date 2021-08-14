@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Prompt, useHistory } from "react-router-dom";
 import NavBar from "../../components/layout/NavBar/NavBar";
 import {
   Button,
@@ -70,9 +70,16 @@ const CreateContactPage = () => {
     !form.countryCode?.length ||
     !form.phoneNumber?.length;
 
+  const formNotCompleted = Object.values(form).filter(value => value && value !== '')?.length > 0 
+
   return (
     <div>
       <NavBar />
+      <Prompt
+        when={formNotCompleted}
+        message="You have unsaved changes, would you like to leave?"
+
+      />
       <Grid centered>
         <Grid.Column className="form-column">
           <Header>Create Contact</Header>

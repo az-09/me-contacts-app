@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { BrowserRouter, Switch } from "react-router-dom";
 import RenderRoute from "./components/routing/RenderRoute";
 import routes from "./components/routing/routes";
@@ -10,11 +10,13 @@ const App = () => {
     <div>
       <Provider>
         <BrowserRouter>
-          <Switch>
-            {routes.map((route) => (
-              <RenderRoute {...route} key={route.title} />
-            ))}
-          </Switch>
+          <Suspense fallback={<p>Loading</p>}>
+            <Switch>
+              {routes.map((route) => (
+                <RenderRoute {...route} key={route.title} />
+              ))}
+            </Switch>
+          </Suspense>
         </BrowserRouter>
       </Provider>
     </div>

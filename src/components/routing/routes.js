@@ -1,7 +1,10 @@
+import {lazy} from 'react';
 import ContactsPage from '../../views/Contacts/ContactsPage';
-import CreateContactPage from '../../views/CreateContact/CreateContactPage';
 import LoginPage from '../../views/Login/LoginPage';
 import RegisterPage from '../../views/Register/RegisterPage';
+
+// import CreateContactPage from '../../views/CreateContact/CreateContactPage';
+const CreateContactPage = lazy(() => import('../../views/CreateContact/CreateContactPage'))
 
 const routes = [
   {
