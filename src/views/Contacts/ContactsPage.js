@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import NavBar from "../../components/layout/NavBar/NavBar";
 import { Context } from "../../contexts/Provider";
 import getContacts from "../../services/getContacts";
+import FavoritesPage from "../Favorites/FavoritesPage";
 import ContactListPage from "./ContactListPage";
 
 const ContactsPage = () => {
@@ -26,6 +27,7 @@ const ContactsPage = () => {
       <div>
           
           <NavBar />
+          <FavoritesPage  {...contactsState}/>   
           <ContactListPage {...contactsState}/>
       </div>
   );

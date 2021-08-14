@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import {
   Button,
+  Container,
   Header,
   Icon,
   List,
@@ -30,6 +31,7 @@ const ContactListPage = (state) => {
 
   return (
     <div>
+      <Container>
       <Header>ALL</Header>
       {loading && (
         <>
@@ -89,7 +91,9 @@ const ContactListPage = (state) => {
             </List.Item>
           ))}
       </List>
+      </Container>
     </div>
+    
   );
 };
 

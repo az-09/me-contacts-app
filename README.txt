@@ -828,7 +828,15 @@ case UPDATE_FAVORITE_SUCCESS: {
 
 
 
+- Step 41. ContactsPage.js
+...
+     <Header>Favorites</Header>
+    <FavoritesPage  {...contactsState}/>
 
 
+- Step 42. FavoritesPage.js
+
+
+- Step 43. FavoritesPage.css
 
 
