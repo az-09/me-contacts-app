@@ -7,6 +7,7 @@ import {
   Header,
   Message,
   Segment,
+  Icon
 } from "semantic-ui-react";
 import { Link, useHistory } from "react-router-dom";
 import { Context } from "../../contexts/Provider";
@@ -53,7 +54,7 @@ const LoginPage = () => {
                   value={form.username || ""}
                   onChange={onChange}
                   name="username"
-                  placeholder="Username"
+                  placeholder="Username (Enter test for testing)"
                   label="Username"
                 />
               </Form.Field>
@@ -64,7 +65,7 @@ const LoginPage = () => {
                   onChange={onChange}
                   name="password"
                   type="password"
-                  placeholder="Password"
+                  placeholder="Password (Enter test12345 for testing)"
                   label="Password"
                 />
               </Form.Field>
@@ -83,9 +84,18 @@ const LoginPage = () => {
                 Need an account <Link to="/auth/register">Register</Link>
               </Segment>
             </Form>
+            
           </Segment>
+          <Segment basic textAlign={"center"}>
+            Credit to <Icon name='user circle' size='large' /> <a href="https://www.youtube.com/c/CryceTruly">Cryce Truly</a> 
+          </Segment>
+          
         </Grid.Column>
+        
+        
       </Grid>
+      
+      
     </div>
   );
 };

@@ -21,7 +21,7 @@ const ContactsPage = () => {
     if (data.length === 0) {
       getContacts(history)(contactsDispatch);
     }
-  }, []);
+  }, [contactsDispatch, data.length, history]);
 
   return (
       <div>

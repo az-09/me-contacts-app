@@ -19,7 +19,7 @@ import './CreateContactPage.css'
 
 const CreateContactPage = () => {
   const {
-    contactState: { loading, error, data },
+    contactState: { loading, data },
     contactDispatch,
     contactsDispatch,
   } = useContext(Context);
@@ -62,7 +62,7 @@ const CreateContactPage = () => {
     return () => {
       clearCreateContact()(contactDispatch);
     };
-  }, [data]);
+  }, [data, contactsDispatch, contactDispatch, history]);
 
   const createContactFormValid =
     !form.firstName?.length ||
@@ -70,7 +70,7 @@ const CreateContactPage = () => {
     !form.countryCode?.length ||
     !form.phoneNumber?.length;
 
-  const formNotCompleted = Object.values(form).filter(value => value && value !== '')?.length > 0 
+  const formNotCompleted = Object.values(form).filter(value => value && value !== '')?.length > 0 && !data
 
   return (
     <div>

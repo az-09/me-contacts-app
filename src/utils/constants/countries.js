@@ -235,7 +235,7 @@ const countries = [
   },
   {
     text: "Canada (+1)",
-    value: "+1",
+    value: "+1 ",
     flag: "ca",
     key: "ca",
   },
