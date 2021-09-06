@@ -862,7 +862,7 @@ import {lazy} from 'react';
 const CreateContactPage = lazy(() => import('../../views/CreateContact/CreateContactPage'))
 
 
-- Step 45-2. Layload, App.js
+- Step 45-2. Lazyload, App.js
           <Suspense fallback={<p>Loading</p>}>
             <Switch>
               {routes.map((route) => (
@@ -870,6 +870,11 @@ const CreateContactPage = lazy(() => import('../../views/CreateContact/CreateCon
               ))}
             </Switch>
           </Suspense>
+
+git remote add origin https://github.com/az-09/review-react-contact-app.git
+git remote -v
+git push origin --delete master
+
 
 
 
