@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { Container } from "semantic-ui-react";
 import NavBar from "../../components/layout/NavBar/NavBar";
 import { Context } from "../../contexts/Provider";
 import getContacts from "../../services/getContacts";
@@ -24,12 +25,12 @@ const ContactsPage = () => {
   }, [contactsDispatch, data.length, history]);
 
   return (
-      <div>
+      <Container>
           
           <NavBar />
           <FavoritesPage  {...contactsState}/>   
           <ContactListPage {...contactsState}/>
-      </div>
+      </Container>
   );
 };
 

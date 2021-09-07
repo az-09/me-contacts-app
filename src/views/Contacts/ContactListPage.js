@@ -30,7 +30,7 @@ const ContactListPage = (state) => {
 
 
   return (
-    <div>
+
       <Container>
       <Header>ALL</Header>
       {loading && (
@@ -92,8 +92,7 @@ const ContactListPage = (state) => {
           ))}
       </List>
       </Container>
-    </div>
-    
+   
   );
 };
 
