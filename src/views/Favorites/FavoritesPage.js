@@ -43,7 +43,6 @@ const FavoritesPage = (state) => {
   };
 
   return (
-    <div>
       <Container>
         <Header>Favorites</Header>
         {loading && (
@@ -100,7 +99,6 @@ const FavoritesPage = (state) => {
           )}
         </div>
       </Container>
-    </div>
   );
 };
 

@@ -4,6 +4,7 @@ import NavBar from "../../components/layout/NavBar/NavBar";
 import {
   Button,
   Card,
+  Container,
   Form,
   Grid,
   Header,
@@ -73,7 +74,7 @@ const CreateContactPage = () => {
   const formNotCompleted = Object.values(form).filter(value => value && value !== '')?.length > 0 && !data
 
   return (
-    <div>
+    <Container>
       <NavBar />
       <Prompt
         when={formNotCompleted}
@@ -162,7 +163,7 @@ const CreateContactPage = () => {
           </Card>
         </Grid.Column>
       </Grid>
-    </div>
+    </Container>
   );
 };
 

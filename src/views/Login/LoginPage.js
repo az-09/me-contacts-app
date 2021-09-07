@@ -7,7 +7,8 @@ import {
   Header,
   Message,
   Segment,
-  Icon
+  Icon,
+  Container
 } from "semantic-ui-react";
 import { Link, useHistory } from "react-router-dom";
 import { Context } from "../../contexts/Provider";
@@ -23,11 +24,11 @@ const LoginPage = () => {
   const history = useHistory();
 
   useEffect(() => {
-    
+
     if (data && data.token) {
-        history.push("/")
+      history.push("/")
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const onChange = (e, { name, value }) => {
@@ -41,8 +42,10 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
-    <NavBar/>
+
+    <Container>
+
+      <NavBar />
       <Grid centered>
         <Grid.Column style={{ maxWidth: 550, marginTop: 20 }}>
           <Header>Login</Header>
@@ -84,19 +87,21 @@ const LoginPage = () => {
                 Need an account <Link to="/auth/register">Register</Link>
               </Segment>
             </Form>
-            
+
           </Segment>
           <Segment basic textAlign={"center"}>
-            Credit to <Icon name='user circle' size='large' /> <a href="https://www.youtube.com/c/CryceTruly">Cryce Truly</a> 
+            <Icon name="github" size='large'  ></Icon> <a href="https://github.com/az-09/me-contacts-app">Frontend</a> | <a href="https://github.com/az-09/me-contacts-api">Backend</a>   <br />
+            Credit to <Icon name='user circle' size='large' /> <a href="https://www.youtube.com/c/CryceTruly">Cryce Truly</a>
+
           </Segment>
-          
+
         </Grid.Column>
-        
-        
+
+
       </Grid>
-      
-      
-    </div>
+    </Container>
+
+
   );
 };
 export default LoginPage;

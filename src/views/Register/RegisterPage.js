@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { Button, Form, Grid, Header, Segment } from "semantic-ui-react";
+import { Button, Container, Form, Grid, Header, Segment } from "semantic-ui-react";
 import { Link, useHistory } from "react-router-dom";
 
 import { Context } from "../../contexts/Provider";
@@ -56,7 +56,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div>
+    <Container>
       <NavBar />
       <Grid centered>
         <Grid.Column style={{ maxWidth: 550, marginTop: 20 }}>
@@ -158,7 +158,7 @@ const RegisterPage = () => {
           </Segment>
         </Grid.Column>
       </Grid>
-    </div>
+    </Container>
   );
 };
 export default RegisterPage;
